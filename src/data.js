@@ -23,11 +23,14 @@ var data = {
     title: 'Modularization',
     subtitle: 'Modular Development in Node',
     greetingText: 'I can haz nodz to?',
-    goodbyeText: 'All ur nodz r belong 2 us',
+    goodbyeText: 'All our nodes are now belong to you',
     sections: [{
         title: 'What A Module Isn\'t',
         subtitle: '',
-
+        background: {
+            image: 'rube.jpg',
+            size: 'cover'
+        },
         slides: [
             {
                 title: '',
@@ -75,6 +78,10 @@ console.log(greeting + \' \' + name); // Hola Maria
         }, {
             title: 'What a Module Is',
             subtitle: '',
+            background: {
+                image: 'tesla.jpg',
+                size: 'cover'
+            },
             slides: [{
                 title: '',
                 uniqueContent: '\
@@ -116,118 +123,174 @@ console.log(greeting + \' \' + name);
                 It is generally applicable because provides a specific function and does not rely on the existence of anything else\
                 It is concerned with only one thing -- providing greetings in different languages.\
                 One does not need to know the details of how it works, only the way to interact with it.'
-            }
-        ]
-    }, {
-        title: 'Module Interface Patterns',
-        subtitle: 'Singletons, Factories &amp; Objects',
-        slides: [{
-            title: 'Singletons',
-            uniqueContent: '\
-            <p>Singletons are constructors that only allow one instance to be created</p>\
-            <p class="fragment">All node modules are singletons.</p>\
-            '
+            }]
         }, {
-            title: 'Factories',
-            uniqueContent: '\
-            <p>Factories are functions that create and return functions</p>
-            <p class="fragment">Singletons can be factories</p>
-            ',
-            notes: ''
-        }, {
-            title: 'Objects',
-            uniqueContent: '\
-            <p>Return an object to provide a collection of related activities.</p>
-            <p class="fragment"><strong>Rembmeber</strong>: node modules are singletons. Use a factory to return a new object for a clean object on every <code>require</code></p>
-            ',
-            notes: ''
-        }]
-    }, {
-        title: 'Convention!',
-        subtitle: 'Get used to Async',
-        slides: [{
-            title: 'Be async by default',
-            uniqueContent: '\
-            <p class="fragment">Callbacks <small>( <code>function (err, data) {...}</code> )</small></p>\
-            <p class="fragment">Promises <small>( A+ please )</small></p>\
-            <p class="fragment">Streams <small>( streams are nice :)</small></p>'
-        }]
-    }, {
-        title: 'Under the Hood',
-        subtitle: '<code>require</code> and <code>exports</code> in node',
-        slides: [{
-            title: 'Module Syntax',
-            uniqueContent: '
-            <dl>
-                <dt>Tomorrow (ES2015 AKA ES6)</dt>
-                <dd><code>export function () {...}</code></dd>
-                <dd><code>import * as mod from \'./module\'</code></dd>
-            </dl>
-            '
-        }, {
-            title: 'Module Syntax',
-            uniqueContent: '
-            <dl>
-                <dt>Today</dt>
-                <dd><code>module.exports = mod</code></dd>
-                <dd><code>require(\'./mod\')</code></dd>
-            </dl>
-            '
-        }, {
-            title: 'When a module is <code>require</code>d in, a number of things happen.',
-            uniqueContent: ''
-        }, {
-            title: '',
-            uniqueContent: '\
-            <ol>\
-                <li><code>require</code> is a wrapper around <code>module.require</code> which in turn is a wrapper around <code>Module._load</code></li>\
-                <li class="fragment"><code>Module._load</code> checks <code>Module._cache</code> for an existence of the <code>require</code>d module</li>\
-            </ol>\
-            '
-        }, {
-            title: '',
-            uniqueContent: '\
-            <ol start="3">\
-                <li>If empty, creates a new Module instance and saves it to <code>Module._cache</code></li>\
-                <li class="fragment">Calls <code>module.load()</code> with the <code>require</code>\'s filename.</li>\
-            </ol>\
-            '
-        }, {
-            title: '',
-            uniqueContent: '\
-            <ol start="5">\
-                <li>Removes the module from cache if there was a error loading or parsing the file</li>\
-                <li class="fragment">returns <code>module.exports</code> to the module</li>\
-            </ol>\
-            '
-        }, {
-            title: '<code>module.load</code>',
-            uniqueContent: '\
-            <p>It is what <code>module.load</code> does that makes <code>require</code>d modules work the way they do.</p>\
-            '
-        }, {
-            title: '',
-            uniqueContent: '
-<p>The module\'s code is wrapped in a function and passed a few parameters.</p>
-
-<pre><code>
-Module.wrap = function (script) {
-    var wrap = [\'(function (exports, require, module, __filename, __dirname) {\',
-            \'})\'];
-    return wrap[0] + script + wrap[1];
+            title: 'Module Interface Patterns',
+            subtitle: 'Singletons, Factories &amp; Objects',
+            background: {
+                image: 'Factory.svg',
+                size: 'contain',
+                repeat: 'no-repeat',
+                position: 'center bottom'
+            },
+            slides: [{
+                title: 'Singletons',
+                background: {
+                    image: 'singularity.png',
+                    size: 'contain',
+                    repeat: 'no-repeat'
+                },
+                uniqueContent: '\
+                <p>Singletons are constructors that only allow one instance to be created.</p>\
+                <p class="fragment">All node modules are effectively singletons since they are executed only once, regardless how many times they are reqired.</p>\
+                '
+            }, {
+                title: 'Factories',
+                background: {
+                    image: 'Factory.svg',
+                    size: 'contain',
+                    repeat: 'no-repeat',
+                    position: 'bottom center'
+                },
+                uniqueContent: '\
+                <p>Factories are functions that create and return functions</p>
+                <p class="fragment">Singletons can be factories!</p>
+<pre class="fragment"><code>
+//A compliment factory
+module.exports = function (presentParticiples) {
+    return function (name) {
+        "My " + name
+        + "you\'re so good at "
+        + (getRandomItem(presentParticiples)) + "!"
+    }
 }
 
-var wrapper = Module.wrap(fileContent);
-var compiledWrapper = runInThisContext(wrapper, { filename: filename });
-var args = [self.exports, require, self, filename, dirname];
-return compiledWrapper.apply(self.exports, args);
+</code></pre>
+                ',
+                notes: ''
+            }, {
+                title: 'Objects',
+                background: {
+                    image: 'brackets.svg',
+                    size: 'contain',
+                    repeat: 'no-repeat'
+                },
+                uniqueContent: '\
+                <p>Return an object to provide a collection of related activities.</p>
+                <p class="fragment"><strong>Remember</strong>: node modules are effectively singletons. If you want a pristine object every <code>require</code>, use a factory</p>
+<pre class="fragment"><code>
+//A factory for plain objects
+return function () {
+    return {};
+}
 
 </code></pre>
-            '
-        }]
-    }, {
+                ',
+                notes: ''
+            }]
+        }, {
+            title: 'Convention!',
+            subtitle: 'Get used to Async',
+            background: {
+                image: 'fiddler.svg',
+                size: 'contain',
+                repeat: 'no-repeat',
+                position: 'bottom center'
+            },
+            slides: [{
+                title: 'Be async by default',
+                uniqueContent: '\
+                <p class="fragment">Callbacks <small>( <code>function (err, data) {...}</code> )</small></p>\
+                <p class="fragment">Promises <small>( A+ please )</small></p>\
+                <p class="fragment">Streams <small>( streams are nice :)</small></p>'
+            }]
+        }, {
+            title: 'Under the Hood',
+            background: {
+                image: 'hood.svg',
+                size: 'contain',
+                repeat: 'no-repeat',
+                position: 'left bottom'
+            },
+            subtitle: '<code>require</code> and <code>exports</code> in node',
+            slides: [{
+                title: 'Module Syntax',
+                uniqueContent: '
+                <dl>
+                    <dt>Tomorrow (ES2015 AKA ES6)</dt>
+                    <dd><code>export function () {...}</code></dd>
+                    <dd><code>import * as mod from \'./module\'</code></dd>
+                </dl>
+                '
+            }, {
+                title: 'Module Syntax',
+                uniqueContent: '
+                <dl>
+                    <dt>Today</dt>
+                    <dd><code>module.exports = mod</code></dd>
+                    <dd><code>require(\'./mod\')</code></dd>
+                </dl>
+                '
+            }, {
+                title: 'When a module is <code>require</code>d in, a number of things happen.',
+                uniqueContent: ''
+            }, {
+                title: '',
+                uniqueContent: '\
+                <ol>\
+                    <li><code>require</code> is a wrapper around <code>module.require</code> which in turn is a wrapper around <code>Module._load</code></li>\
+                    <li class="fragment"><code>Module._load</code> checks <code>Module._cache</code> for an existence of the <code>require</code>d module</li>\
+                </ol>\
+                '
+            }, {
+                title: '',
+                uniqueContent: '\
+                <ol start="3">\
+                    <li>If empty, creates a new Module instance and saves it to <code>Module._cache</code></li>\
+                    <li class="fragment">Calls <code>module.load()</code> with the <code>require</code>\'s filename.</li>\
+                </ol>\
+                '
+            }, {
+                title: '',
+                uniqueContent: '\
+                <ol start="5">\
+                    <li>Removes the module from cache if there was a error loading or parsing the file</li>\
+                    <li class="fragment">returns <code>module.exports</code> to the module</li>\
+                </ol>\
+                '
+            }, {
+                title: '<code>module.load</code>',
+                uniqueContent: '\
+                <p>It is what <code>module.load</code> does that makes <code>require</code>d modules work the way they do.</p>\
+                '
+            }, {
+                title: '',
+                uniqueContent: '
+    <p>The module\'s code is wrapped in a function and passed a few parameters.</p>
+
+    <pre><code>
+    Module.wrap = function (script) {
+        var wrap = [\'(function (exports, require, module, __filename, __dirname) {\',
+                \'})\'];
+        return wrap[0] + script + wrap[1];
+    }
+
+    var wrapper = Module.wrap(fileContent);
+    var compiledWrapper = runInThisContext(wrapper, { filename: filename });
+    var args = [self.exports, require, self, filename, dirname];
+    return compiledWrapper.apply(self.exports, args);
+
+    </code></pre>
+                '
+            }]
+        }, {
         title: 'Walk Through',
         subtitle: 'Short on cache',
+        background: {
+            image: 'footprints.svg',
+            size: 'contain',
+            repeat: 'no-repeat'
+        },
         slides: [{
             title: 'Fetch and Cache',
             uniqueContent: '\

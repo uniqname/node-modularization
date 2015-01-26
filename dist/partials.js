@@ -9,9 +9,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
   buffer += "\n<section class=\"section-title\" data-background=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.theme)),stack1 == null || stack1 === false ? stack1 : stack1.mainColor)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\" data-transition=\""
+    + "\"  data-background-image=\"images/base_cats.svg\" data-background-repeat=\"no-repeat\" data-background-size=\"cover\" data-background-position=\"50% 50%\" data-transition=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.theme)),stack1 == null || stack1 === false ? stack1 : stack1.specialTransition)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">\n	<img src=\"images/logo.png\" alt=\"Logo\" />\n	<h2>";
+    + "\">\n	<h2>";
   if (helper = helpers.goodbyeText) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.goodbyeText); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)

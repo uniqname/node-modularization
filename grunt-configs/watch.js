@@ -50,6 +50,7 @@ module.exports = function(grunt) {
 				'<%= gruntScope.srcImageFiles %>'
 			],
 			tasks: [
+				'copy:images'
 			]
 		},
 		data: {

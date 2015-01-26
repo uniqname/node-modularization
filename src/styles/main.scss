@@ -26,8 +26,18 @@ $backgroundColor: #fff; // this is the default, but can be overridden in the ind
 $lightContrast: #e9e9e9;
 
 // Fonts
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:900,400);
-$mainFont: 'Roboto Slab', sans-serif;
+$fonts: (
+	'Cabin': 'Cabin',
+	'Karla': 'Karla',
+	'Questrial': 'Questrial',
+	'Roboto Slab': 'Roboto+Slab:900,400'
+);
+$currentFont: 'Questrial';
+$font: $currentFont;
+$fontRef: map-get($fonts, #{$font});
+
+@import url(http://fonts.googleapis.com/css?family=#{$fontRef});
+$mainFont: $font, sans-serif;
 $headingFont: $mainFont;
 
 // Other
@@ -50,6 +60,10 @@ $marginBase: 1rem;
 
 .reveal {
 	font-size: 300%;
+
+	.backgrounds .slide-background {
+		background-size: cover;
+	}
 
 	// Branding
 	strong {
@@ -152,6 +166,7 @@ $marginBase: 1rem;
 		h5,
 		h6 {
 			color: #fff;
+			text-shadow: 0 0 .1em hsl(0, 0%, 0%);
 		}
 
 		h3,

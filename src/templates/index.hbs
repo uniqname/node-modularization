@@ -1,0 +1,10 @@
+{{!-- Injected into the <body> of index.html --}}
+<div class="reveal index">
+	<div class="slides">
+		{{> start }}
+		{{#each sections }}
+			{{> section }}
+		{{/each}}
+		{{> end }}
+	</div>
+</div>

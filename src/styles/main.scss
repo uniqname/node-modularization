@@ -36,7 +36,7 @@ $currentFont: 'Questrial';
 $font: $currentFont;
 $fontRef: map-get($fonts, #{$font});
 
-@import url(http://fonts.googleapis.com/css?family=#{$fontRef});
+@import url(//fonts.googleapis.com/css?family=#{$fontRef});
 $mainFont: $font, sans-serif;
 $headingFont: $mainFont;
 
